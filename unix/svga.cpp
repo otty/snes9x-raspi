@@ -94,7 +94,13 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 	}
 	atexit(SDL_Quit);
 	keyssnes = SDL_GetKeyState(NULL);
-	screen = SDL_SetVideoMode(xs, ys, 16, SDL_SWSURFACE);
+
+    if (Settings.SupportHiRes) {
+	    screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
+    } else {
+	    screen = SDL_SetVideoMode(320, 240, 16, SDL_SWSURFACE);
+    }
+
 	SDL_ShowCursor(0); // rPi: we're not really interested in showing a mouse cursor
 
     /* FIXME: hardcode two joysticks here, do nice nice init later */
