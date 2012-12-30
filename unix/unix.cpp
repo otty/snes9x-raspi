@@ -196,15 +196,15 @@ void S9xParseArg (char **argv, int &i, int argc)
 	    S9xUsage ();
 }
 
-/*#include "cheats.h"*/
 extern "C"
+
 int main (int argc, char **argv)
 {
     if (argc < 2)
 	S9xUsage ();
     ZeroMemory (&Settings, sizeof (Settings));
 
-    Settings.JoystickEnabled = TRUE; // rPi changed default
+    Settings.JoystickEnabled = TRUE; // use joystick
     Settings.SoundPlaybackRate = 7;
     Settings.Stereo = TRUE;
     Settings.SoundBufferSize = 256;
@@ -222,12 +222,10 @@ int main (int argc, char **argv)
     Settings.Mouse = FALSE;
     Settings.SuperScope = FALSE;
     Settings.MultiPlayer5 = FALSE;
-//    Settings.ControllerOption = SNES_MULTIPLAYER5;
     Settings.ControllerOption = SNES_JOYPAD;
     Settings.Transparency = TRUE;
     Settings.SixteenBit = TRUE;
-
-    //Settings.SupportHiRes = TRUE;
+    Settings.SupportHiRes = FALSE;
     Settings.NetPlay = FALSE;
     Settings.ServerName [0] = 0;
     Settings.ThreadSound = TRUE;
@@ -429,16 +427,6 @@ void S9xInitInputDevices ()
 
 	sfc_key[QUIT] = RPI_KEY_QUIT;
 	sfc_key[ACCEL] = RPI_KEY_ACCEL;
-
-/*	sfc_key[LEFT_2] = SDLK_4;
-	sfc_key[RIGHT_2] = SDLK_6;
-	sfc_key[UP_2] = SDLK_8;
-	sfc_key[DOWN_2] = SDLK_2;
-	sfc_key[LU_2] = SDLK_7;
-	sfc_key[LD_2] = SDLK_1;
-	sfc_key[RU_2] = SDLK_9;
-	sfc_key[RD_2] = SDLK_3; */
-
 
 	int i = 0;
 	char *envp, *j;
@@ -1304,121 +1292,10 @@ uint32 S9xReadJoypad (int which1)
 	if (keyssnes[sfc_key[DOWN_1]] == SDL_PRESSED || joy_axes[which1][JA_UD] == DOWN)	val |= SNES_DOWN_MASK;
 	if (keyssnes[sfc_key[LEFT_1]] == SDL_PRESSED || joy_axes[which1][JA_LR] == LEFT)	val |= SNES_LEFT_MASK;
 	if (keyssnes[sfc_key[RIGHT_1]] == SDL_PRESSED || joy_axes[which1][JA_LR] == RIGHT)	val |= SNES_RIGHT_MASK;
-/*	if (keyssnes[sfc_key[UP_2]] == SDL_PRESSED)	val |= SNES_UP_MASK;
-	if (keyssnes[sfc_key[DOWN_2]] == SDL_PRESSED)	val |= SNES_DOWN_MASK;
-	if (keyssnes[sfc_key[LEFT_2]] == SDL_PRESSED)	val |= SNES_LEFT_MASK;
-	if (keyssnes[sfc_key[RIGHT_2]] == SDL_PRESSED)	val |= SNES_RIGHT_MASK;
-	if (keyssnes[sfc_key[LU_2]] == SDL_PRESSED)	val |= SNES_LEFT_MASK | SNES_UP_MASK;
-	if (keyssnes[sfc_key[LD_2]] == SDL_PRESSED)	val |= SNES_LEFT_MASK | SNES_DOWN_MASK;
-	if (keyssnes[sfc_key[RU_2]] == SDL_PRESSED)	val |= SNES_RIGHT_MASK | SNES_UP_MASK;
-	if (keyssnes[sfc_key[RD_2]] == SDL_PRESSED)	val |= SNES_RIGHT_MASK | SNES_DOWN_MASK; */
+
 	return(val);
 }
 
-#if 0
-void S9xParseConfigFile ()
-{
-    int i, t = 0;
-    char *b, buf[10];
-    struct ffblk f;
-
-    set_config_file("SNES9X.CFG");
-
-    if (findfirst("SNES9X.CFG", &f, 0) != 0)
-    {
-        set_config_int("Graphics", "VideoMode", -1);
-        set_config_int("Graphics", "AutoFrameskip", 1);
-        set_config_int("Graphics", "Frameskip", 0);
-        set_config_int("Graphics", "Shutdown", 1);
-        set_config_int("Graphics", "FrameTimePAL", 20000);
-        set_config_int("Graphics", "FrameTimeNTSC", 16667);
-        set_config_int("Graphics", "Transparency", 0);
-        set_config_int("Graphics", "HiColor", 0);
-        set_config_int("Graphics", "Hi-ResSupport", 0);
-        set_config_int("Graphics", "CPUCycles", 100);
-        set_config_int("Graphics", "Scale", 0);
-        set_config_int("Graphics", "VSync", 0);
-        set_config_int("Sound", "APUEnabled", 1);
-        set_config_int("Sound", "SoundPlaybackRate", 7);
-        set_config_int("Sound", "Stereo", 1);
-        set_config_int("Sound", "SoundBufferSize", 256);
-        set_config_int("Sound", "SPCToCPURatio", 2);
-        set_config_int("Sound", "Echo", 1);
-        set_config_int("Sound", "SampleCaching", 1);
-        set_config_int("Sound", "MasterVolume", 1);
-        set_config_int("Peripherals", "Mouse", 1);
-        set_config_int("Peripherals", "SuperScope", 1);
-        set_config_int("Peripherals", "MultiPlayer5", 1);
-        set_config_int("Peripherals", "Controller", 0);
-        set_config_int("Controllers", "Type", JOY_TYPE_AUTODETECT);
-        set_config_string("Controllers", "Button1", "A");
-        set_config_string("Controllers", "Button2", "B");
-        set_config_string("Controllers", "Button3", "X");
-        set_config_string("Controllers", "Button4", "Y");
-        set_config_string("Controllers", "Button5", "TL");
-        set_config_string("Controllers", "Button6", "TR");
-        set_config_string("Controllers", "Button7", "START");
-        set_config_string("Controllers", "Button8", "SELECT");
-        set_config_string("Controllers", "Button9", "NONE");
-        set_config_string("Controllers", "Button10", "NONE");
-    }
-
-    mode = get_config_int("Graphics", "VideoMode", -1);
-    Settings.SkipFrames = get_config_int("Graphics", "AutoFrameskip", 1);
-    if (!Settings.SkipFrames)
-       Settings.SkipFrames = get_config_int("Graphics", "Frameskip", AUTO_FRAMERATE);
-    else
-       Settings.SkipFrames = AUTO_FRAMERATE;
-    Settings.ShutdownMaster = get_config_int("Graphics", "Shutdown", TRUE);
-    Settings.FrameTimePAL = get_config_int("Graphics", "FrameTimePAL", 20000);
-    Settings.FrameTimeNTSC = get_config_int("Graphics", "FrameTimeNTSC", 16667);
-    Settings.FrameTime = Settings.FrameTimeNTSC;
-    Settings.Transparency = get_config_int("Graphics", "Transparency", FALSE);
-    Settings.SixteenBit = get_config_int("Graphics", "HiColor", FALSE);
-    Settings.SupportHiRes = get_config_int("Graphics", "Hi-ResSupport", FALSE);
-    i = get_config_int("Graphics", "CPUCycles", 100);
-    Settings.H_Max = (i * SNES_CYCLES_PER_SCANLINE) / i;
-    stretch = get_config_int("Graphics", "Scale", 0);
-    _vsync = get_config_int("Graphics", "VSync", 0);
-
-    Settings.APUEnabled = get_config_int("Sound", "APUEnabled", TRUE);
-    Settings.SoundPlaybackRate = get_config_int("Sound", "SoundPlaybackRate", 7);
-    Settings.Stereo = get_config_int("Sound", "Stereo", TRUE);
-    Settings.SoundBufferSize = get_config_int("Sound", "SoundBufferSize", 256);
-    Settings.SPCTo65c816Ratio = get_config_int("Sound", "SPCToCPURatio", 2);
-    Settings.DisableSoundEcho = get_config_int("Sound", "Echo", TRUE) ? FALSE : TRUE;
-    Settings.DisableSampleCaching = get_config_int("Sound", "SampleCaching", TRUE) ? FALSE : TRUE;
-    Settings.DisableMasterVolume = get_config_int("Sound", "MasterVolume", TRUE) ? FALSE : TRUE;
-
-    Settings.Mouse = get_config_int("Peripherals", "Mouse", TRUE);
-    Settings.SuperScope = get_config_int("Peripherals", "SuperScope", TRUE);
-    Settings.MultiPlayer5 = get_config_int("Peripherals", "MultiPlayer5", TRUE);
-    Settings.ControllerOption = (uint32)get_config_int("Peripherals", "Controller", SNES_MULTIPLAYER5);
-
-    joy_type = get_config_int("Controllers", "Type", JOY_TYPE_AUTODETECT);
-    for (i = 0; i < 10; i++)
-    {
-        sprintf(buf, "Button%d", i+1);
-        b = get_config_string("Controllers", buf, "NONE");
-        if (!strcasecmp(b, "A"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_A_MASK;}
-        else if (!strcasecmp(b, "B"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_B_MASK;}
-        else if (!strcasecmp(b, "X"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_X_MASK;}
-        else if (!strcasecmp(b, "Y"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_Y_MASK;}
-        else if (!strcasecmp(b, "TL"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_TL_MASK;}
-        else if (!strcasecmp(b, "TR"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_TR_MASK;}
-        else if (!strcasecmp(b, "START"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_START_MASK;}
-        else if (!strcasecmp(b, "SELECT"))
-        {JOY_BUTTON_INDEX[t] = i; SNES_BUTTON_MASKS[t++] = SNES_SELECT_MASK;}
-    }
-}
-#endif
 #ifndef _ZAURUS
 static int S9xCompareSDD1IndexEntries (const void *p1, const void *p2)
 {
