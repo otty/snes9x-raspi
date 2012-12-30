@@ -227,7 +227,8 @@ int main (int argc, char **argv)
     Settings.ControllerOption = SNES_JOYPAD;
     Settings.Transparency = TRUE;
     Settings.SixteenBit = TRUE;
-    Settings.SupportHiRes = FALSE;
+
+    Settings.SupportHiRes = TRUE;
     Settings.NetPlay = FALSE;
     Settings.ServerName [0] = 0;
     Settings.ThreadSound = TRUE;
