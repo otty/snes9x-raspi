@@ -1293,6 +1293,16 @@ uint32 S9xReadJoypad (int which1)
 {
 	uint32 val=0x80000000;
 
+    /* some more debug */
+    if (joy_buttons[which1][JB_L]) printf ("S9xReadJoypad which: %d, JB_L: %d\n", which1, joy_buttons[which1][JB_L]);
+    if (joy_buttons[which1][JB_R]) printf ("S9xReadJoypad which: %d, JB_R: %d\n", which1, joy_buttons[which1][JB_R]);
+    if (joy_buttons[which1][JB_X]) printf ("S9xReadJoypad which: %d, JB_X: %d\n", which1, joy_buttons[which1][JB_X]);
+    if (joy_buttons[which1][JB_Y]) printf ("S9xReadJoypad which: %d, JB_Y: %d\n", which1, joy_buttons[which1][JB_Y]);
+    if (joy_buttons[which1][JB_A]) printf ("S9xReadJoypad which: %d, JB_A: %d\n", which1, joy_buttons[which1][JB_A]);
+    if (joy_buttons[which1][JB_B]) printf ("S9xReadJoypad which: %d, JB_B: %d\n", which1, joy_buttons[which1][JB_B]);
+    if (joy_buttons[which1][JB_START]) printf ("S9xReadJoypad which: %d, JB_START: %d\n", which1, joy_buttons[which1][JB_START]);
+    if (joy_buttons[which1][JB_SELECT]) printf ("S9xReadJoypad which: %d, JB_SELECT: %d\n", which1, joy_buttons[which1][JB_SELECT]);
+
     /* check for quitting emulator via gamepad */
     if ((joy_buttons[which1][JB_START]) && (joy_buttons[which1][JB_SELECT])){
         S9xExit();
