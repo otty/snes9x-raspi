@@ -204,28 +204,6 @@ const char *S9xSelectFilename (const char *def, const char *dir1,
     return (NULL);
 }
 
-void S9xParseDisplayArg (char **argv, int &ind, int)
-{
-    if (strcasecmp (argv [ind], "-scale") == 0 ||
-	strcasecmp (argv [ind], "-sc") == 0)
-	stretch = TRUE;
-    else
-    if (strcasecmp (argv [ind], "-y") == 0 ||
-	strcasecmp (argv [ind], "-interpolation") == 0)
-    {
-	interpolation = TRUE;
-	Settings.SixteenBit = TRUE;
-	Settings.SupportHiRes = TRUE;
-	Settings.Transparency = TRUE;
-    }
-    else
-	S9xUsage ();
-}
-
-void S9xExtraUsage ()
-{
-}
-
 bool8 S9xReadMousePosition (int /* which1 */, int &/* x */, int & /* y */,
 			    uint32 & /* buttons */)
 {

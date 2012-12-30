@@ -194,7 +194,6 @@ void S9xParseArg (char **argv, int &i, int argc)
 	}
     else
 	    S9xUsage ();
-//	S9xParseDisplayArg (argv, i, argc);
 }
 
 /*#include "cheats.h"*/
