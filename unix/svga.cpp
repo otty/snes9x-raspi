@@ -63,6 +63,8 @@
 #define COUNT(a) (sizeof(a) / sizeof(a[0]))
 
 SDL_Surface *screen, *gfxscreen;
+SDL_Surface* backbuffer;
+
 SDL_Joystick *joy1;
 SDL_Joystick *joy2;
 
@@ -97,7 +99,7 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 	screen = SDL_SetVideoMode(xs, ys, 16, SDL_SWSURFACE);
 	SDL_ShowCursor(0); // rPi: we're not really interested in showing a mouse cursor
 
-    /* FIXME: hardcode two joysticks here, do nice nice init later */
+    /* FIXME: hardcode two joysticks here, do nice detection later */
 
 	joy1 = SDL_JoystickOpen(0);
 	joy2 = SDL_JoystickOpen(1);
@@ -121,15 +123,17 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 		gfxscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 512, 480, 16, 0, 0, 0, 0);
 		GFX.Screen = (uint8 *)gfxscreen->pixels;
 		GFX.Pitch = 512 * 2;
-		printf("Setting high res video mode, pitch: %d, pixels:%d \n", GFX.Pitch, GFX.Screen);
+		printf("Setting high res video mode, pitch: %d \n", GFX.Pitch);
 	} else {
 		GFX.Screen = (uint8 *)screen->pixels + 64;
 		GFX.Pitch = 320 * 2;
-		printf("Setting low res video mode, pitch: %d, pixels:%d \n", GFX.Pitch, GFX.Screen);
+		printf("Setting low res video mode, pitch: %d \n", GFX.Pitch);
 	}
 	GFX.SubScreen = (uint8 *)malloc(512 * 480 * 2);
 	GFX.ZBuffer = (uint8 *)malloc(512 * 480 * 2);
 	GFX.SubZBuffer = (uint8 *)malloc(512 * 480 * 2);
+
+    backbuffer = SDL_DisplayFormat(screen);
 
 	RGBconvert = (uint16 *)malloc(65536 * 2);
 	if (!RGBconvert)
