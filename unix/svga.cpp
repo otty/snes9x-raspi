@@ -94,13 +94,7 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 	}
 	atexit(SDL_Quit);
 	keyssnes = SDL_GetKeyState(NULL);
-
-    if (Settings.SupportHiRes) {
-	    screen = SDL_SetVideoMode(512, 480, 16, SDL_SWSURFACE);
-    } else {
-	    screen = SDL_SetVideoMode(320, 240, 16, SDL_SWSURFACE);
-    }
-
+	screen = SDL_SetVideoMode(xs, ys, 16, SDL_SWSURFACE);
 	SDL_ShowCursor(0); // rPi: we're not really interested in showing a mouse cursor
 
     /* FIXME: hardcode two joysticks here, do nice nice init later */
@@ -127,11 +121,11 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 		gfxscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 512, 480, 16, 0, 0, 0, 0);
 		GFX.Screen = (uint8 *)gfxscreen->pixels;
 		GFX.Pitch = 512 * 2;
-		printf("Setting high res video mode.\n");
+		printf("Setting high res video mode\n", SDL_GetError());
 	} else {
 		GFX.Screen = (uint8 *)screen->pixels + 64;
-		GFX.Pitch = 512 * 2;
-		printf("Setting low res video mode.\n");
+		GFX.Pitch = 320 * 2;
+		printf("Setting low res video mode\n", SDL_GetError());
 	}
 	GFX.SubScreen = (uint8 *)malloc(512 * 480 * 2);
 	GFX.ZBuffer = (uint8 *)malloc(512 * 480 * 2);
