@@ -96,7 +96,7 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 	keyssnes = SDL_GetKeyState(NULL);
 
     if (Settings.SupportHiRes) {
-	    screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
+	    screen = SDL_SetVideoMode(512, 480, 16, SDL_SWSURFACE);
     } else {
 	    screen = SDL_SetVideoMode(320, 240, 16, SDL_SWSURFACE);
     }
@@ -124,18 +124,18 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 		S9xExit();
 	}
 	if (Settings.SupportHiRes) {
-		gfxscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 16, 0, 0, 0, 0);
+		gfxscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 512, 480, 16, 0, 0, 0, 0);
 		GFX.Screen = (uint8 *)gfxscreen->pixels;
-		GFX.Pitch = 640 * 2;
+		GFX.Pitch = 512 * 2;
 		printf("Setting high res video mode.\n");
 	} else {
 		GFX.Screen = (uint8 *)screen->pixels + 64;
-		GFX.Pitch = 320 * 2;
+		GFX.Pitch = 512 * 2;
 		printf("Setting low res video mode.\n");
 	}
-	GFX.SubScreen = (uint8 *)malloc(640 * 480 * 2);
-	GFX.ZBuffer = (uint8 *)malloc(640 * 480 * 2);
-	GFX.SubZBuffer = (uint8 *)malloc(640 * 480 * 2);
+	GFX.SubScreen = (uint8 *)malloc(512 * 480 * 2);
+	GFX.ZBuffer = (uint8 *)malloc(512 * 480 * 2);
+	GFX.SubZBuffer = (uint8 *)malloc(512 * 480 * 2);
 
 	RGBconvert = (uint16 *)malloc(65536 * 2);
 	if (!RGBconvert)
