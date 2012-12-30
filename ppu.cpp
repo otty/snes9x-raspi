@@ -2532,6 +2532,7 @@ void S9xNextController()
 
 void S9xUpdateJoypads(struct InternalPPU *ippu)
 {
+/*
 #ifdef _ZAURUS
 	int i = 0;
 #else
@@ -2539,6 +2540,10 @@ void S9xUpdateJoypads(struct InternalPPU *ippu)
 
 	for (i = 0; i < 5; i++)
 #endif
+*/
+    /* hardcode joypad reading for two players */
+
+    for (i = 0; i < 2; i++)
 	{
 		ippu->Joypads[i] = S9xReadJoypad(i);
 		if (ippu->Joypads[i] & SNES_LEFT_MASK)
