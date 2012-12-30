@@ -2542,7 +2542,7 @@ void S9xUpdateJoypads(struct InternalPPU *ippu)
 #endif
 */
     /* hardcode joypad reading for two players */
-
+	int i;
     for (i = 0; i < 2; i++)
 	{
 		ippu->Joypads[i] = S9xReadJoypad(i);
