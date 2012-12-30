@@ -224,7 +224,7 @@ int main (int argc, char **argv)
     Settings.SuperScope = FALSE;
     Settings.MultiPlayer5 = FALSE;
 //    Settings.ControllerOption = SNES_MULTIPLAYER5;
-    Settings.ControllerOption = 0;
+    Settings.ControllerOption = SNES_JOYPAD;
     Settings.Transparency = TRUE;
     Settings.SixteenBit = TRUE;
     Settings.SupportHiRes = FALSE;
@@ -910,12 +910,20 @@ void S9xProcessEvents (bool8_32 block)
 	while(SDL_PollEvent(&event)) {
 		switch(event.type) {
 		case SDL_JOYBUTTONDOWN:
+
+            printf ("SDL_JOYBUTTONDOWN: %d, %d\n", event.jbutton.which, event.jbutton.button);
+
 			joy_buttons[event.jbutton.which][event.jbutton.button] = 1;
 			break;
 		case SDL_JOYBUTTONUP:
+
+            printf ("SDL_JOYBUTTONUP: which: %d, button: %d\n", event.jbutton.which, event.jbutton.button);
 			joy_buttons[event.jbutton.which][event.jbutton.button] = 0;
 			break;
 		case SDL_JOYAXISMOTION:
+
+            printf ("SDL_JOYAXISMOTION which: %d, axis: %d, value: %d\n", event.jaxis.which, event.jaxis.axis, event.jaxis.value);
+
 			switch(event.jaxis.axis) {
 				case JA_LR:
 					if(event.jaxis.value == 0)
