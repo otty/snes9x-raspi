@@ -917,9 +917,6 @@ void S9xProcessEvents (bool8_32 block)
 			joy_buttons[event.jbutton.which][event.jbutton.button] = 0;
 			break;
 		case SDL_JOYAXISMOTION:
-
-            printf ("SDL_JOYAXISMOTION which: %d, axis: %d, value: %d\n", event.jaxis.which, event.jaxis.axis, event.jaxis.value);
-
 			switch(event.jaxis.axis) {
 				case JA_LR:
 					if(event.jaxis.value == 0)
