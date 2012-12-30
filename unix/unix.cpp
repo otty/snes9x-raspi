@@ -910,28 +910,28 @@ void S9xProcessEvents (bool8_32 block)
 	while(SDL_PollEvent(&event)) {
 		switch(event.type) {
 		case SDL_JOYBUTTONDOWN:
-			joy_buttons[event.which][event.jbutton.button] = 1;
+			joy_buttons[event.jbutton.which][event.jbutton.button] = 1;
 			break;
 		case SDL_JOYBUTTONUP:
-			joy_buttons[event.which][event.jbutton.button] = 0;
+			joy_buttons[event.jbutton.which][event.jbutton.button] = 0;
 			break;
 		case SDL_JOYAXISMOTION:
 			switch(event.jaxis.axis) {
 				case JA_LR:
 					if(event.jaxis.value == 0)
-						joy_axes[event.which][JA_LR] = CENTER;
+						joy_axes[event.jaxis.which][JA_LR] = CENTER;
 					else if(event.jaxis.value > 0)
-						joy_axes[event.which][JA_LR] = RIGHT;
+						joy_axes[event.jaxis.which][JA_LR] = RIGHT;
 					else
-						joy_axes[event.which][JA_LR] = LEFT;
+						joy_axes[event.jaxis.which][JA_LR] = LEFT;
 				break;
 				case JA_UD:
 					if(event.jaxis.value == 0)
-						joy_axes[event.which][JA_UD] = CENTER;
+						joy_axes[event.jaxis.which][JA_UD] = CENTER;
 					else if(event.jaxis.value > 0)
-						joy_axes[event.which][JA_UD] = DOWN;
+						joy_axes[event.jaxis.which][JA_UD] = DOWN;
 					else
-						joy_axes[event.which][JA_UD] = UP;
+						joy_axes[event.jaxis.which][JA_UD] = UP;
 				break;
 			}
 		case SDL_KEYDOWN:
