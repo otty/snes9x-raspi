@@ -121,11 +121,11 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 		gfxscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 512, 480, 16, 0, 0, 0, 0);
 		GFX.Screen = (uint8 *)gfxscreen->pixels;
 		GFX.Pitch = 512 * 2;
-		printf("Setting high res video mode\n", SDL_GetError());
+		printf("Setting high res video mode, pitch: %d, pixels:%d \n", GFX.Pitch, GFX.Screen);
 	} else {
 		GFX.Screen = (uint8 *)screen->pixels + 64;
 		GFX.Pitch = 320 * 2;
-		printf("Setting low res video mode\n", SDL_GetError());
+		printf("Setting low res video mode, pitch: %d, pixels:%d \n", GFX.Pitch, GFX.Screen);
 	}
 	GFX.SubScreen = (uint8 *)malloc(512 * 480 * 2);
 	GFX.ZBuffer = (uint8 *)malloc(512 * 480 * 2);
