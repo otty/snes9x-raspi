@@ -101,7 +101,6 @@ void *S9xProcessSound (void *);
 extern void S9xDisplayFrameRate (uint8 *, uint32);
 extern void S9xDisplayString (const char *string, uint8 *, uint32);
 extern SDL_Surface *screen;
-extern SDL_Surface* backbuffer;
 
 static uint32 ffc = 0;
 bool8_32 nso = FALSE, vga = FALSE;
@@ -695,13 +694,8 @@ bool8_32 S9xDeinitUpdate (int Width, int Height)
 			SDL_UpdateRect(screen,0,0,0,0);
 			++ffc;
 		} else {
-			//SDL_UpdateRect(screen,32,0,256,Height);
+			SDL_UpdateRect(screen,32,0,256,Height);
 		//	SDL_Flip(screen);
-            SDL_Rect srcrect = {0,0,256,Height};            //the part of the screen to be stretched, must be sup 0 and inf screen surface Height and Width
-            SDL_Rect dstrect = {0,0,640,480};            //equals screen resolution
-
-		    SDL_SoftStretch(backbuffer,&srcrect,screen,&dstrect);
-            SDL_Flip(screen);
 		}
 	}
 	return(TRUE);

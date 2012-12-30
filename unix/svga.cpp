@@ -63,7 +63,6 @@
 #define COUNT(a) (sizeof(a) / sizeof(a[0]))
 
 SDL_Surface *screen, *gfxscreen;
-SDL_Surface* backbuffer;
 
 SDL_Joystick *joy1;
 SDL_Joystick *joy2;
@@ -132,8 +131,6 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 	GFX.SubScreen = (uint8 *)malloc(512 * 480 * 2);
 	GFX.ZBuffer = (uint8 *)malloc(512 * 480 * 2);
 	GFX.SubZBuffer = (uint8 *)malloc(512 * 480 * 2);
-
-    backbuffer = SDL_DisplayFormat(screen);
 
 	RGBconvert = (uint16 *)malloc(65536 * 2);
 	if (!RGBconvert)
