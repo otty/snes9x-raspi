@@ -1286,8 +1286,10 @@ uint32 S9xReadJoypad (int which1)
 	uint32 val=0x80000000;
 
     /* check for quitting emulator via gamepad */
-    if (joy_buttons[which1][JB_START]) && joy_buttons[which1][JB_SELECT]))
+    if ((joy_buttons[which1][JB_START]) && (joy_buttons[which1][JB_SELECT])){
         S9xExit();
+        return;
+    }
 
 	if (keyssnes[sfc_key[L_1]] == SDL_PRESSED || joy_buttons[which1][JB_L])		val |= SNES_TL_MASK;
 	if (keyssnes[sfc_key[R_1]] == SDL_PRESSED || joy_buttons[which1][JB_R])		val |= SNES_TR_MASK;
