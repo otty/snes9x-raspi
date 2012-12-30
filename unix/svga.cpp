@@ -63,7 +63,8 @@
 #define COUNT(a) (sizeof(a) / sizeof(a[0]))
 
 SDL_Surface *screen, *gfxscreen;
-SDL_Joystick *joy;
+SDL_Joystick *joy1;
+SDL_Joystick *joy2;
 
 uint16 *RGBconvert;
 extern uint32 xs, ys, cl, cs;
@@ -96,16 +97,19 @@ void S9xInitDisplay (int /*argc*/, char ** /*argv*/)
 	screen = SDL_SetVideoMode(xs, ys, 16, SDL_SWSURFACE);
 	SDL_ShowCursor(0); // rPi: we're not really interested in showing a mouse cursor
 
-	joy = SDL_JoystickOpen(0);
+    /* FIXME: hardcode two joysticks here, do nice nice init later */
 
-	if(joy) {
-		printf("Opened joystick 0.\n");
+	joy1 = SDL_JoystickOpen(0);
+	joy2 = SDL_JoystickOpen(1);
+
+	if(joy1 && joy2) {
+		printf("Opened joysticks.\n");
 		if(SDL_JoystickEventState(SDL_ENABLE) != SDL_ENABLE) {
 			printf("Could not set joystick event state\n", SDL_GetError());
 			S9xExit();
 		}
 	} else {
-		printf("Could not initialize joystick.");
+		printf("Could not initialize joysticks.");
 	}
 
 	if (screen == NULL)
@@ -141,7 +145,9 @@ void S9xDeinitDisplay ()
 	SDL_FreeSurface(screen);
 
 	if(SDL_JoystickOpened(0))
-		SDL_JoystickClose(joy); // Should this go here? WHO KNOWS
+		SDL_JoystickClose(joy1); // Should this go here? WHO KNOWS
+	if(SDL_JoystickOpened(1))
+		SDL_JoystickClose(joy2); // Should this go here? WHO KNOWS
 
 	free(GFX.SubScreen);
 	free(GFX.ZBuffer);
